@@ -1,0 +1,382 @@
+{
+  "about": {
+    "educationDescription": "I'm a passionate Software Engineering undergraduate at the Java Institute for Advanced Technology (4th Year), specializing in full-stack development with a deep love for crafting exceptional digital experiences.\n\nMy expertise spans from building robust Java backends and REST APIs to creating visually striking React frontends. I thrive on turning complex problems into elegant, user-friendly solutions — whether that's a feature-rich Android eCommerce app or a sleek web dashboard.",
+    "education": [
+      {
+        "degree": "BEng (Hons) / BSc (Hons) in Software Engineering",
+        "school": "Java Institute for Advanced Technology",
+        "year": "2023 – 2027",
+        "note": "4th Year Undergraduate"
+      },
+      {
+        "degree": "GCE Advanced Level Examination",
+        "school": "MT/ Vijaya College (National School), Matale",
+        "year": "2022",
+        "note": null
+      },
+      {
+        "degree": "Diploma in English Language and Literature",
+        "school": "British Way English Academy",
+        "year": "Dec 2018 – Mar 2019",
+        "note": null
+      }
+    ],
+    "info": [
+      {
+        "icon": "FiMapPin",
+        "label": "Matale, Sri Lanka"
+      },
+      {
+        "icon": "FiPhone",
+        "label": "+94 76 790 0101"
+      },
+      {
+        "icon": "FiMail",
+        "label": "maheeshaudalagama@gmail.com"
+      },
+      {
+        "icon": "FiGlobe",
+        "label": "maheeshaudalagama.online",
+        "href": "https://maheeshaudalagama.online"
+      }
+    ]
+  },
+  "skills": {
+    "skillCategories": [
+      {
+        "title": "Frontend",
+        "color": "#00d4ff",
+        "icon": "◈",
+        "skills": [
+          {
+            "name": "React.js",
+            "level": 88
+          },
+          {
+            "name": "JavaScript",
+            "level": 85
+          },
+          {
+            "name": "TypeScript",
+            "level": 72
+          },
+          {
+            "name": "Tailwind CSS",
+            "level": 90
+          },
+          {
+            "name": "HTML5 / CSS3",
+            "level": 92
+          },
+          {
+            "name": "React Native",
+            "level": 75
+          }
+        ]
+      },
+      {
+        "title": "Backend",
+        "color": "#7c3aed",
+        "icon": "◈",
+        "skills": [
+          {
+            "name": "Java",
+            "level": 88
+          },
+          {
+            "name": "Node.js",
+            "level": 78
+          },
+          {
+            "name": "Express.js",
+            "level": 76
+          },
+          {
+            "name": "PHP",
+            "level": 70
+          },
+          {
+            "name": "REST APIs",
+            "level": 82
+          }
+        ]
+      },
+      {
+        "title": "Database",
+        "color": "#00ff88",
+        "icon": "◈",
+        "skills": [
+          {
+            "name": "MySQL",
+            "level": 85
+          },
+          {
+            "name": "MongoDB",
+            "level": 78
+          },
+          {
+            "name": "Firebase Firestore",
+            "level": 82
+          },
+          {
+            "name": "JDBC",
+            "level": 80
+          }
+        ]
+      },
+      {
+        "title": "Tools & Deployment",
+        "color": "#f59e0b",
+        "icon": "◈",
+        "skills": [
+          {
+            "name": "Git & GitHub",
+            "level": 88
+          },
+          {
+            "name": "Android Studio",
+            "level": 82
+          },
+          {
+            "name": "Vercel / Netlify",
+            "level": 78
+          },
+          {
+            "name": "VS Code / IntelliJ",
+            "level": 90
+          }
+        ]
+      }
+    ],
+    "otherTech": [
+      "JasperReports",
+      "Firebase Auth",
+      "Firebase Realtime DB",
+      "NativeWind",
+      "WordPress",
+      "Android (Kotlin)",
+      "XML Layouts",
+      "JDBC",
+      "REST API Design"
+    ]
+  },
+  "projects": [
+    {
+      "title": "Shofyra",
+      "subtitle": "Android eCommerce Mobile App",
+      "description": "A full-featured Android eCommerce app for selling electronic products with modern UI, cart functionality, product listing, checkout flow, and secure user authentication.",
+      "tech": [
+        "Java",
+        "Android Studio",
+        "Firebase Auth",
+        "Firebase Firestore",
+        "XML"
+      ],
+      "github": "https://github.com/Maheesh218a/Shofyra",
+      "live": null,
+      "category": "Mobile",
+      "icon": "FiSmartphone",
+      "color": "#00d4ff",
+      "features": [
+        "Cart & Checkout",
+        "Firebase Auth",
+        "Product Search",
+        "Dark/Light Mode"
+      ]
+    },
+    {
+      "title": "Shofyra Admin Panel",
+      "subtitle": "Web-Based Management System",
+      "description": "A full-featured admin dashboard to manage the Shofyra eCommerce platform with modules for product management (CRUD), user management, order management, and analytics.",
+      "tech": [
+        "React.js",
+        "Tailwind CSS",
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+        "REST API"
+      ],
+      "github": "https://github.com/Maheesh218a/admin-panel",
+      "live": null,
+      "category": "Web",
+      "icon": "FiLayout",
+      "color": "#7c3aed",
+      "features": [
+        "CRUD Operations",
+        "Analytics Dashboard",
+        "Image Uploads",
+        "Admin Auth"
+      ]
+    },
+    {
+      "title": "GM Super Service",
+      "subtitle": "Transport Booking System",
+      "description": "A full-stack web application for online bus reservations and trip planning with secure Java backend, MySQL for real-time seat availability, and mobile-first frontend.",
+      "tech": [
+        "Java",
+        "PHP",
+        "MySQL",
+        "JavaScript",
+        "HTML/CSS"
+      ],
+      "github": "https://github.com/Maheesh218a/GM_Super_Service_MobileApp",
+      "live": null,
+      "category": "Web",
+      "icon": "FiGlobe",
+      "color": "#00ff88",
+      "features": [
+        "Real-time Booking",
+        "Seat Management",
+        "Mobile-First UI",
+        "Secure Backend"
+      ]
+    },
+    {
+      "title": "Adyapana IMS",
+      "subtitle": "POS Desktop Application",
+      "description": "A POS-style desktop application to automate student registrations and payment processing, replacing manual workflows with digitized MySQL records and receipt generation.",
+      "tech": [
+        "Java",
+        "MySQL",
+        "JDBC",
+        "JasperReports"
+      ],
+      "github": "https://www.linkedin.com/posts/maheesha-udalagama-11958b273_pointofsale-possystem-educationmanagement-activity-7288410699033194496-0nEh",
+      "live": null,
+      "category": "Desktop",
+      "icon": "FiMonitor",
+      "color": "#f59e0b",
+      "features": [
+        "Student Registration",
+        "Payment Processing",
+        "Receipt Generation",
+        "MySQL Backend"
+      ]
+    },
+    {
+      "title": "Gym Management System",
+      "subtitle": "Desktop Application",
+      "description": "A comprehensive gym management desktop app to automate member registrations and payments with printable membership receipts and attendance reports via JasperReports.",
+      "tech": [
+        "Java",
+        "MySQL",
+        "JDBC",
+        "JasperReports"
+      ],
+      "github": "https://www.linkedin.com/posts/maheesha-udalagama-11958b273_gymmanagementsystem-javadevelopment-jasperreports-activity-7339505006254964736-3qlD",
+      "live": null,
+      "category": "Desktop",
+      "icon": "FiMonitor",
+      "color": "#ec4899",
+      "features": [
+        "Member Management",
+        "Payment Tracking",
+        "Attendance Reports",
+        "Digital Records"
+      ]
+    },
+    {
+      "title": "Personal Portfolio",
+      "subtitle": "Portfolio Website",
+      "description": "A high-performance personal showcase with a unique terminal-style loading sequence, glassmorphism UI, custom scroll animations, and fully responsive grid layout.",
+      "tech": [
+        "React.js",
+        "Tailwind CSS",
+        "Vercel"
+      ],
+      "github": "https://github.com/Maheesh218a",
+      "live": "https://maheeshaudalagama.online",
+      "category": "Web",
+      "icon": "FiGlobe",
+      "color": "#06b6d4",
+      "features": [
+        "Terminal Loader",
+        "Glassmorphism UI",
+        "Scroll Animations",
+        "Fully Responsive"
+      ]
+    },
+    {
+      "title": "React Native Chat App",
+      "subtitle": "Cross-Platform Mobile Application",
+      "description": "A cross-platform mobile chat app with real-time messaging, user authentication, scalable state management, and a responsive NativeWind-styled interface.",
+      "tech": [
+        "React Native",
+        "TypeScript",
+        "NativeWind"
+      ],
+      "github": "https://github.com/Maheesh218a",
+      "live": null,
+      "category": "Mobile",
+      "icon": "FiSmartphone",
+      "color": "#8b5cf6",
+      "features": [
+        "Real-time Messaging",
+        "User Auth",
+        "TypeScript",
+        "Cross-Platform"
+      ]
+    }
+  ],
+  "experience": {
+    "experiences": [
+      {
+        "role": "Video Editing Intern",
+        "company": "Southeye Sri Lanka",
+        "period": "Dec 2023 – Feb 2024",
+        "type": "Internship",
+        "color": "#00d4ff",
+        "highlights": [
+          "Transformed raw footage into compelling news stories under tight deadlines for broadcast production.",
+          "Applied advanced editing techniques to ensure narrative clarity and high audience engagement.",
+          "Executed color correction and audio leveling to elevate production quality of broadcast content."
+        ]
+      }
+    ],
+    "certifications": [
+      {
+        "title": "Complete WordPress Website Developer Course",
+        "issuer": "Udemy",
+        "color": "#7c3aed"
+      },
+      {
+        "title": "Certificate in Computer Application Assistant",
+        "issuer": "Nexa Institute (2016)",
+        "color": "#00d4ff"
+      },
+      {
+        "title": "Diploma in English Language",
+        "issuer": "British Way English Academy (2018–2019)",
+        "color": "#00ff88"
+      },
+      {
+        "title": "Spoken English Certificate",
+        "issuer": "Institute of Western Music & Speech",
+        "color": "#f59e0b"
+      }
+    ]
+  },
+  "contact": {
+    "email": "maheeshaudalagama@gmail.com",
+    "social": [
+      {
+        "name": "GitHub",
+        "href": "https://github.com/Maheesh218a",
+        "color": "#00d4ff",
+        "icon": "FiGithub"
+      },
+      {
+        "name": "LinkedIn",
+        "href": "https://www.linkedin.com/in/maheesha-udalagama",
+        "color": "#7c3aed",
+        "icon": "FiLinkedin"
+      },
+      {
+        "name": "Twitter",
+        "href": "#",
+        "color": "#00ff88",
+        "icon": "FiTwitter"
+      }
+    ]
+  }
+}
