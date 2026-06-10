@@ -1,6 +1,9 @@
 # Maheesha Udalagama — Portfolio
 
-A modern, dark-themed personal portfolio website built with React.js and Tailwind CSS.
+🌐 **Live Demo:** [https://maheesha-portfilo-react.vercel.app/](https://maheesha-portfilo-react.vercel.app/)
+🔒 **Admin Panel:** [https://maheesha-portfilo-react.vercel.app/admin/login](https://maheesha-portfilo-react.vercel.app/admin/login)
+
+A modern, dark-themed personal portfolio website built with React.js, Tailwind CSS, and Firebase. 100% Serverless Architecture.
 
 ## Project Structure
 
@@ -83,10 +86,18 @@ The output will be in `frontend/dist/` — deploy this folder to Vercel, Netlify
 - ✅ Contact form with validation
 - ✅ Fully responsive (mobile + desktop)
 - ✅ Dark glow effects throughout
+- ✅ Built-in Secure Admin Panel
+- ✅ 100% Serverless Database via Firebase Firestore
+- ✅ Firebase Authentication for Admin Access
 
 ## Customization
 
+You no longer need to edit source code to update your portfolio! All content can be updated directly from the live site:
+1. Log into the **Admin Panel**.
+2. Edit your **Projects, Experience, About, and Contact** info.
+3. Click "Save" and it will instantly update on the live website via Firebase Firestore.
+
+*(Note: The Skills section is currently hardcoded for fast loading and can be edited in the local `src/data/skills.json` file).*
+
 - **CV**: Replace `frontend/public/Maheesha_Udalagama_CV.pdf` with your updated CV
-- **Projects**: Edit `src/components/Projects.jsx` → `PROJECTS` array
-- **Skills**: Edit `src/components/Skills.jsx` → `skillCategories` array
 - **Colors**: Edit `tailwind.config.js` → `extend.colors`
