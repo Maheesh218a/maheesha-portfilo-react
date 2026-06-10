@@ -25,3 +25,8 @@ yarn-error.log*
 
 # Vite
 .vite/
+
+# Security & Temp Scripts
+backend/auth.json
+frontend/seed.js
+frontend/addProjects.js

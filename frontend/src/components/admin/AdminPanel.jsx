@@ -6,6 +6,7 @@ import SkillsEditor from './editors/SkillsEditor';
 import ProjectsEditor from './editors/ProjectsEditor';
 import ExperienceEditor from './editors/ExperienceEditor';
 import ContactEditor from './editors/ContactEditor';
+import SecurityEditor from './editors/SecurityEditor';
 
 const AdminPanel = () => {
   const { data, updateData } = useContext(PortfolioContext);
@@ -14,7 +15,7 @@ const AdminPanel = () => {
 
   if (!data) return null;
 
-  const tabs = ['About', 'Skills', 'Projects', 'Experience', 'Contact'];
+  const tabs = ['About', 'Skills', 'Projects', 'Experience', 'Contact', 'Security'];
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -23,6 +24,7 @@ const AdminPanel = () => {
       case 'Projects': return <ProjectsEditor data={data.projects} onSave={(newData) => updateData('projects', newData)} />;
       case 'Experience': return <ExperienceEditor data={data.experience} onSave={(newData) => updateData('experience', newData)} />;
       case 'Contact': return <ContactEditor data={data.contact} onSave={(newData) => updateData('contact', newData)} />;
+      case 'Security': return <SecurityEditor />;
       default: return null;
     }
   };
@@ -45,13 +47,23 @@ const AdminPanel = () => {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`w-full text-left px-4 py-3 rounded-xl font-display font-semibold transition-all duration-300 ${
+              className={`w-full text-left px-5 py-3.5 rounded-xl font-display font-semibold transition-all duration-500 relative group overflow-hidden flex items-center gap-3 ${
                 activeTab === tab
-                  ? 'bg-white/10 text-white shadow-[0_0_15px_rgba(0,212,255,0.2)] border border-white/20'
-                  : 'text-textSecondary hover:bg-white/5 hover:text-white border border-transparent'
+                  ? 'text-white'
+                  : 'text-textSecondary hover:text-white'
               }`}
             >
-              {tab}
+              <div 
+                className={`absolute inset-0 bg-white/10 border border-white/20 rounded-xl transition-all duration-500 origin-left ${
+                  activeTab === tab ? 'scale-x-100 opacity-100' : 'scale-x-0 opacity-0'
+                }`}
+              />
+              <span className={`w-1.5 h-1.5 rounded-full transition-all duration-500 z-10 ${
+                activeTab === tab ? 'bg-[#00d4ff] shadow-[0_0_10px_#00d4ff] scale-100' : 'bg-transparent scale-0'
+              }`} />
+              <span className={`relative z-10 transition-transform duration-500 ${activeTab === tab ? 'translate-x-1' : 'translate-x-0'}`}>
+                {tab}
+              </span>
             </button>
           ))}
         </nav>
@@ -100,7 +112,9 @@ const AdminPanel = () => {
         </div>
 
         <div className="p-6 md:p-12 flex-1 max-w-5xl mx-auto w-full">
-          {renderTabContent()}
+          <div key={activeTab} className="tab-content-enter">
+            {renderTabContent()}
+          </div>
         </div>
       </main>
     </div>

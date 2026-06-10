@@ -1,28 +1,45 @@
 import React, { useState } from 'react';
+import AlertMessage from '../AlertMessage';
+import ConfirmDialog from '../ConfirmDialog';
 
 const ProjectsEditor = ({ data, onSave }) => {
   const [formData, setFormData] = useState(data);
   const [saving, setSaving] = useState(false);
   const [editingIndex, setEditingIndex] = useState(null);
+  const [alert, setAlert] = useState({ show: false, message: '', type: 'error' });
+  const [confirmDelete, setConfirmDelete] = useState({ show: false, index: null });
+
+  const validate = () => {
+    for (let i = 0; i < formData.length; i++) {
+      const p = formData[i];
+      if (!p.title?.trim() || !p.description?.trim() || !p.category?.trim()) {
+        setAlert({ show: true, message: `Please fill required fields (Title, Description, Category) for project ${i + 1}.`, type: 'error' });
+        return false;
+      }
+    }
+    return true;
+  };
 
   const handleSave = () => {
+    if (!validate()) return;
     setSaving(true);
     onSave(formData);
+    setAlert({ show: true, message: 'Projects saved successfully!', type: 'success' });
     setTimeout(() => setSaving(false), 800);
   };
 
   const addProject = () => {
     const newProject = {
-      title: 'New Project',
-      subtitle: 'Subtitle',
-      description: 'Describe the project...',
-      tech: ['React', 'Node'],
-      github: '#',
-      live: null,
+      title: '',
+      subtitle: '',
+      description: '',
+      tech: [],
+      github: '',
+      live: '',
       category: 'Web',
-      icon: 'FiGlobe',
+      icon: '',
       color: '#00d4ff',
-      features: ['Feature 1', 'Feature 2']
+      features: []
     };
     setFormData([newProject, ...formData]);
     setEditingIndex(0);
@@ -33,6 +50,8 @@ const ProjectsEditor = ({ data, onSave }) => {
     newData.splice(index, 1);
     setFormData(newData);
     if (editingIndex === index) setEditingIndex(null);
+    onSave(newData);
+    setAlert({ show: true, message: 'Project deleted successfully!', type: 'success' });
   };
 
   const updateProject = (index, key, value) => {
@@ -48,6 +67,21 @@ const ProjectsEditor = ({ data, onSave }) => {
 
   return (
     <div className="space-y-8 pb-10">
+      <AlertMessage 
+        message={alert.show ? alert.message : ''} 
+        type={alert.type} 
+        onClose={() => setAlert({ ...alert, show: false })} 
+      />
+      <ConfirmDialog 
+        isOpen={confirmDelete.show}
+        title="Delete Project?"
+        message="Are you sure you want to delete this project? This action cannot be undone."
+        onConfirm={() => {
+          if (confirmDelete.index !== null) deleteProject(confirmDelete.index);
+          setConfirmDelete({ show: false, index: null });
+        }}
+        onCancel={() => setConfirmDelete({ show: false, index: null })}
+      />
       <div className="flex justify-between items-center border-b border-white/10 pb-4">
         <h2 className="text-2xl font-display font-bold text-[#00d4ff]">Featured Projects</h2>
         <div className="flex gap-3">
@@ -80,7 +114,7 @@ const ProjectsEditor = ({ data, onSave }) => {
               <div className="flex items-center gap-3">
                 <div className="w-3 h-3 rounded-full" style={{ backgroundColor: project.color }} />
                 <div>
-                  <h4 className="font-display font-bold text-sm text-textPrimary truncate">{project.title}</h4>
+                  <h4 className="font-display font-bold text-sm text-textPrimary truncate">{project.title || 'Untitled Project'}</h4>
                   <p className="text-xs font-mono text-textSecondary">{project.category}</p>
                 </div>
               </div>
@@ -93,7 +127,7 @@ const ProjectsEditor = ({ data, onSave }) => {
           {editingIndex !== null && formData[editingIndex] ? (
             <div className="glass-card p-6 rounded-2xl border border-white/5 space-y-5 relative">
               <button 
-                onClick={() => deleteProject(editingIndex)}
+                onClick={() => setConfirmDelete({ show: true, index: editingIndex })}
                 className="absolute top-6 right-6 text-xs font-mono text-red-400 hover:underline px-3 py-1 rounded bg-red-500/10 border border-red-500/20"
               >
                 Delete Project
@@ -106,6 +140,7 @@ const ProjectsEditor = ({ data, onSave }) => {
                   <label className="text-xs font-mono text-textSecondary uppercase">Title</label>
                   <input
                     type="text"
+                    placeholder="Project Title"
                     value={formData[editingIndex].title}
                     onChange={(e) => updateProject(editingIndex, 'title', e.target.value)}
                     className="w-full bg-black/40 border border-white/10 rounded-lg p-2 mt-1 text-sm outline-none focus:border-[#00d4ff]"
@@ -115,6 +150,7 @@ const ProjectsEditor = ({ data, onSave }) => {
                   <label className="text-xs font-mono text-textSecondary uppercase">Subtitle</label>
                   <input
                     type="text"
+                    placeholder="Short subtitle"
                     value={formData[editingIndex].subtitle}
                     onChange={(e) => updateProject(editingIndex, 'subtitle', e.target.value)}
                     className="w-full bg-black/40 border border-white/10 rounded-lg p-2 mt-1 text-sm outline-none focus:border-[#00d4ff]"
@@ -124,6 +160,7 @@ const ProjectsEditor = ({ data, onSave }) => {
                 <div className="col-span-2">
                   <label className="text-xs font-mono text-textSecondary uppercase">Description</label>
                   <textarea
+                    placeholder="Describe the project..."
                     value={formData[editingIndex].description}
                     onChange={(e) => updateProject(editingIndex, 'description', e.target.value)}
                     className="w-full bg-black/40 border border-white/10 rounded-lg p-2 mt-1 text-sm outline-none focus:border-[#00d4ff]"
@@ -149,6 +186,7 @@ const ProjectsEditor = ({ data, onSave }) => {
                     <label className="text-xs font-mono text-textSecondary uppercase">Icon (FiName)</label>
                     <input
                       type="text"
+                      placeholder="e.g. FiGlobe"
                       value={formData[editingIndex].icon}
                       onChange={(e) => updateProject(editingIndex, 'icon', e.target.value)}
                       className="w-full bg-black/40 border border-white/10 rounded-lg p-2 mt-1 text-sm outline-none focus:border-[#00d4ff]"
@@ -169,6 +207,7 @@ const ProjectsEditor = ({ data, onSave }) => {
                   <label className="text-xs font-mono text-textSecondary uppercase">GitHub Link</label>
                   <input
                     type="text"
+                    placeholder="https://github.com/..."
                     value={formData[editingIndex].github || ''}
                     onChange={(e) => updateProject(editingIndex, 'github', e.target.value)}
                     className="w-full bg-black/40 border border-white/10 rounded-lg p-2 mt-1 text-sm outline-none focus:border-[#00d4ff] text-[#00d4ff]"
@@ -178,6 +217,7 @@ const ProjectsEditor = ({ data, onSave }) => {
                   <label className="text-xs font-mono text-textSecondary uppercase">Live URL (optional)</label>
                   <input
                     type="text"
+                    placeholder="https://yourproject.com"
                     value={formData[editingIndex].live || ''}
                     onChange={(e) => updateProject(editingIndex, 'live', e.target.value)}
                     className="w-full bg-black/40 border border-white/10 rounded-lg p-2 mt-1 text-sm outline-none focus:border-[#00d4ff] text-[#00ff88]"
@@ -188,7 +228,8 @@ const ProjectsEditor = ({ data, onSave }) => {
                   <label className="text-xs font-mono text-textSecondary uppercase">Tech Stack (comma separated)</label>
                   <input
                     type="text"
-                    value={formData[editingIndex].tech.join(', ')}
+                    placeholder="React, Node.js, MongoDB"
+                    value={(formData[editingIndex].tech || []).join(', ')}
                     onChange={(e) => updateArrayField(editingIndex, 'tech', e.target.value)}
                     className="w-full bg-black/40 border border-white/10 rounded-lg p-2 mt-1 text-sm outline-none focus:border-[#00d4ff]"
                   />
@@ -198,7 +239,8 @@ const ProjectsEditor = ({ data, onSave }) => {
                   <label className="text-xs font-mono text-textSecondary uppercase">Key Features (comma separated)</label>
                   <input
                     type="text"
-                    value={formData[editingIndex].features.join(', ')}
+                    placeholder="Authentication, Real-time updates"
+                    value={(formData[editingIndex].features || []).join(', ')}
                     onChange={(e) => updateArrayField(editingIndex, 'features', e.target.value)}
                     className="w-full bg-black/40 border border-white/10 rounded-lg p-2 mt-1 text-sm outline-none focus:border-[#00d4ff]"
                   />

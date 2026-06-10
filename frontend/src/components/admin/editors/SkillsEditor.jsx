@@ -1,12 +1,35 @@
 import React, { useState } from 'react';
+import AlertMessage from '../AlertMessage';
+import ConfirmDialog from '../ConfirmDialog';
 
 const SkillsEditor = ({ data, onSave }) => {
   const [formData, setFormData] = useState(data);
   const [saving, setSaving] = useState(false);
+  const [alert, setAlert] = useState({ show: false, message: '', type: 'error' });
+  const [confirmDelete, setConfirmDelete] = useState({ show: false, catIdx: null, skillIdx: null });
+
+  const validate = () => {
+    for (let c = 0; c < formData.skillCategories.length; c++) {
+      const cat = formData.skillCategories[c];
+      if (!cat.title?.trim()) {
+        setAlert({ show: true, message: `Skill category ${c + 1} is missing a title.`, type: 'error' });
+        return false;
+      }
+      for (let s = 0; s < cat.skills.length; s++) {
+        if (!cat.skills[s].name?.trim()) {
+          setAlert({ show: true, message: `Skill ${s + 1} in category "${cat.title}" is missing a name.`, type: 'error' });
+          return false;
+        }
+      }
+    }
+    return true;
+  };
 
   const handleSave = () => {
+    if (!validate()) return;
     setSaving(true);
     onSave(formData);
+    setAlert({ show: true, message: 'Skills saved successfully!', type: 'success' });
     setTimeout(() => setSaving(false), 800);
   };
 
@@ -25,14 +48,17 @@ const SkillsEditor = ({ data, onSave }) => {
 
   const addSkill = (catIdx) => {
     const newCats = [...formData.skillCategories];
-    newCats[catIdx].skills.push({ name: 'New Skill', level: 50 });
+    newCats[catIdx].skills.push({ name: '', level: 50 });
     setFormData({ ...formData, skillCategories: newCats });
   };
 
   const deleteSkill = (catIdx, skillIdx) => {
     const newCats = [...formData.skillCategories];
     newCats[catIdx].skills.splice(skillIdx, 1);
-    setFormData({ ...formData, skillCategories: newCats });
+    const newData = { ...formData, skillCategories: newCats };
+    setFormData(newData);
+    onSave(newData);
+    setAlert({ show: true, message: 'Skill deleted successfully!', type: 'success' });
   };
 
   const updateOtherTech = (value) => {
@@ -43,6 +69,23 @@ const SkillsEditor = ({ data, onSave }) => {
 
   return (
     <div className="space-y-8 pb-10">
+      <AlertMessage 
+        message={alert.show ? alert.message : ''} 
+        type={alert.type} 
+        onClose={() => setAlert({ ...alert, show: false })} 
+      />
+      <ConfirmDialog 
+        isOpen={confirmDelete.show}
+        title="Delete Skill?"
+        message="Are you sure you want to delete this skill?"
+        onConfirm={() => {
+          if (confirmDelete.catIdx !== null && confirmDelete.skillIdx !== null) {
+            deleteSkill(confirmDelete.catIdx, confirmDelete.skillIdx);
+          }
+          setConfirmDelete({ show: false, catIdx: null, skillIdx: null });
+        }}
+        onCancel={() => setConfirmDelete({ show: false, catIdx: null, skillIdx: null })}
+      />
       <div className="flex justify-between items-center border-b border-white/10 pb-4">
         <h2 className="text-2xl font-display font-bold text-[#00d4ff]">Technical Skills</h2>
         <button
@@ -71,6 +114,7 @@ const SkillsEditor = ({ data, onSave }) => {
               />
               <input
                 type="text"
+                placeholder="Category Title"
                 value={cat.title}
                 onChange={(e) => updateCategoryTitle(catIdx, e.target.value)}
                 className="bg-transparent text-lg font-display font-bold outline-none border-b border-dashed border-white/20 focus:border-[#00d4ff] pb-1 w-full"
@@ -82,7 +126,7 @@ const SkillsEditor = ({ data, onSave }) => {
               {cat.skills.map((skill, skillIdx) => (
                 <div key={skillIdx} className="bg-black/40 p-3 rounded-lg border border-white/5 relative group">
                   <button 
-                    onClick={() => deleteSkill(catIdx, skillIdx)}
+                    onClick={() => setConfirmDelete({ show: true, catIdx, skillIdx })}
                     className="absolute -top-2 -right-2 bg-red-500 w-5 h-5 rounded-full flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     ✕
@@ -90,6 +134,7 @@ const SkillsEditor = ({ data, onSave }) => {
                   <div className="flex justify-between items-center mb-2">
                     <input
                       type="text"
+                      placeholder="Skill name"
                       value={skill.name}
                       onChange={(e) => updateSkill(catIdx, skillIdx, 'name', e.target.value)}
                       className="bg-transparent outline-none text-sm font-body w-2/3 focus:border-b border-white/20"

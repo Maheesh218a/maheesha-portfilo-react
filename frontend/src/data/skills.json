@@ -1,0 +1,119 @@
+{
+  "skillCategories": [
+    {
+      "title": "Frontend",
+      "color": "#00d4ff",
+      "icon": "◈",
+      "skills": [
+        {
+          "name": "React.js",
+          "level": 88
+        },
+        {
+          "name": "JavaScript",
+          "level": 85
+        },
+        {
+          "name": "TypeScript",
+          "level": 72
+        },
+        {
+          "name": "Tailwind CSS",
+          "level": 90
+        },
+        {
+          "name": "HTML5 / CSS3",
+          "level": 92
+        },
+        {
+          "name": "React Native",
+          "level": 75
+        }
+      ]
+    },
+    {
+      "title": "Backend",
+      "color": "#7c3aed",
+      "icon": "◈",
+      "skills": [
+        {
+          "name": "Java",
+          "level": 88
+        },
+        {
+          "name": "Node.js",
+          "level": 78
+        },
+        {
+          "name": "Express.js",
+          "level": 76
+        },
+        {
+          "name": "PHP",
+          "level": 70
+        },
+        {
+          "name": "REST APIs",
+          "level": 82
+        }
+      ]
+    },
+    {
+      "title": "Database",
+      "color": "#00ff88",
+      "icon": "◈",
+      "skills": [
+        {
+          "name": "MySQL",
+          "level": 85
+        },
+        {
+          "name": "MongoDB",
+          "level": 78
+        },
+        {
+          "name": "Firebase Firestore",
+          "level": 82
+        },
+        {
+          "name": "JDBC",
+          "level": 80
+        }
+      ]
+    },
+    {
+      "title": "Tools & Deployment",
+      "color": "#f59e0b",
+      "icon": "◈",
+      "skills": [
+        {
+          "name": "Git & GitHub",
+          "level": 88
+        },
+        {
+          "name": "Android Studio",
+          "level": 82
+        },
+        {
+          "name": "Vercel / Netlify",
+          "level": 78
+        },
+        {
+          "name": "VS Code / IntelliJ",
+          "level": 90
+        }
+      ]
+    }
+  ],
+  "otherTech": [
+    "JasperReports",
+    "Firebase Auth",
+    "Firebase Realtime DB",
+    "NativeWind",
+    "WordPress",
+    "Android (Kotlin)",
+    "XML Layouts",
+    "JDBC",
+    "REST API Design"
+  ]
+}

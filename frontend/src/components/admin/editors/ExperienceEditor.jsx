@@ -1,12 +1,35 @@
 import React, { useState } from 'react';
+import AlertMessage from '../AlertMessage';
+import ConfirmDialog from '../ConfirmDialog';
 
 const ExperienceEditor = ({ data, onSave }) => {
   const [formData, setFormData] = useState(data);
   const [saving, setSaving] = useState(false);
+  const [alert, setAlert] = useState({ show: false, message: '', type: 'error' });
+  const [confirmDelete, setConfirmDelete] = useState({ show: false, type: null, index: null });
+
+  const validate = () => {
+    for (let i = 0; i < formData.experiences.length; i++) {
+      const e = formData.experiences[i];
+      if (!e.role?.trim() || !e.company?.trim() || !e.period?.trim()) {
+        setAlert({ show: true, message: `Work history item ${i + 1} is missing required fields (Role, Company, Period).`, type: 'error' });
+        return false;
+      }
+    }
+    for (let i = 0; i < formData.certifications.length; i++) {
+      if (!formData.certifications[i].title?.trim()) {
+        setAlert({ show: true, message: `Certification ${i + 1} is missing a title.`, type: 'error' });
+        return false;
+      }
+    }
+    return true;
+  };
 
   const handleSave = () => {
+    if (!validate()) return;
     setSaving(true);
     onSave(formData);
+    setAlert({ show: true, message: 'Experience saved successfully!', type: 'success' });
     setTimeout(() => setSaving(false), 800);
   };
 
@@ -23,7 +46,7 @@ const ExperienceEditor = ({ data, onSave }) => {
 
   const addExp = () => {
     const newExp = {
-      role: 'New Role', company: 'Company Name', period: 'Date - Date', type: 'Full-time', color: '#00d4ff', highlights: ['Responsibility 1']
+      role: '', company: '', period: '', type: '', color: '#00d4ff', highlights: []
     };
     setFormData({ ...formData, experiences: [newExp, ...formData.experiences] });
   };
@@ -31,7 +54,10 @@ const ExperienceEditor = ({ data, onSave }) => {
   const deleteExp = (index) => {
     const newExps = [...formData.experiences];
     newExps.splice(index, 1);
-    setFormData({ ...formData, experiences: newExps });
+    const newData = { ...formData, experiences: newExps };
+    setFormData(newData);
+    onSave(newData);
+    setAlert({ show: true, message: 'Experience deleted successfully!', type: 'success' });
   };
 
   const updateCert = (index, key, value) => {
@@ -41,18 +67,39 @@ const ExperienceEditor = ({ data, onSave }) => {
   };
 
   const addCert = () => {
-    const newCert = { title: 'New Certification', issuer: 'Issuer Name', color: '#7c3aed' };
+    const newCert = { title: '', issuer: '', color: '#7c3aed' };
     setFormData({ ...formData, certifications: [...formData.certifications, newCert] });
   };
 
   const deleteCert = (index) => {
     const newCerts = [...formData.certifications];
     newCerts.splice(index, 1);
-    setFormData({ ...formData, certifications: newCerts });
+    const newData = { ...formData, certifications: newCerts };
+    setFormData(newData);
+    onSave(newData);
+    setAlert({ show: true, message: 'Certification deleted successfully!', type: 'success' });
   };
 
   return (
     <div className="space-y-8 pb-10">
+      <AlertMessage 
+        message={alert.show ? alert.message : ''} 
+        type={alert.type} 
+        onClose={() => setAlert({ ...alert, show: false })} 
+      />
+      <ConfirmDialog 
+        isOpen={confirmDelete.show}
+        title={confirmDelete.type === 'exp' ? 'Delete Experience?' : 'Delete Certification?'}
+        message="Are you sure you want to delete this entry?"
+        onConfirm={() => {
+          if (confirmDelete.index !== null) {
+            if (confirmDelete.type === 'exp') deleteExp(confirmDelete.index);
+            else if (confirmDelete.type === 'cert') deleteCert(confirmDelete.index);
+          }
+          setConfirmDelete({ show: false, type: null, index: null });
+        }}
+        onCancel={() => setConfirmDelete({ show: false, type: null, index: null })}
+      />
       <div className="flex justify-between items-center border-b border-white/10 pb-4">
         <h2 className="text-2xl font-display font-bold text-[#00d4ff]">Work & Certifications</h2>
         <button
@@ -81,7 +128,7 @@ const ExperienceEditor = ({ data, onSave }) => {
             {formData.experiences.map((exp, idx) => (
               <div key={idx} className="glass-card p-5 rounded-2xl border border-white/5 relative group">
                 <button 
-                  onClick={() => deleteExp(idx)}
+                  onClick={() => setConfirmDelete({ show: true, type: 'exp', index: idx })}
                   className="absolute top-4 right-4 text-xs font-mono text-red-400 opacity-0 group-hover:opacity-100 transition-opacity hover:underline"
                 >
                   Delete
@@ -92,6 +139,7 @@ const ExperienceEditor = ({ data, onSave }) => {
                     <label className="text-xs font-mono text-textSecondary uppercase">Role</label>
                     <input
                       type="text"
+                      placeholder="e.g. Senior Developer"
                       value={exp.role}
                       onChange={(e) => updateExp(idx, 'role', e.target.value)}
                       className="w-full bg-transparent border-b border-white/10 py-1 text-sm outline-none focus:border-[#00d4ff] font-bold"
@@ -101,6 +149,7 @@ const ExperienceEditor = ({ data, onSave }) => {
                     <label className="text-xs font-mono text-textSecondary uppercase">Company</label>
                     <input
                       type="text"
+                      placeholder="e.g. Google"
                       value={exp.company}
                       onChange={(e) => updateExp(idx, 'company', e.target.value)}
                       className="w-full bg-transparent border-b border-white/10 py-1 text-sm outline-none focus:border-[#00d4ff]"
@@ -110,6 +159,7 @@ const ExperienceEditor = ({ data, onSave }) => {
                     <label className="text-xs font-mono text-textSecondary uppercase">Period</label>
                     <input
                       type="text"
+                      placeholder="e.g. 2021 - Present"
                       value={exp.period}
                       onChange={(e) => updateExp(idx, 'period', e.target.value)}
                       className="w-full bg-transparent border-b border-white/10 py-1 text-sm outline-none focus:border-[#00d4ff]"
@@ -120,6 +170,7 @@ const ExperienceEditor = ({ data, onSave }) => {
                       <label className="text-xs font-mono text-textSecondary uppercase">Type</label>
                       <input
                         type="text"
+                        placeholder="e.g. Full-time"
                         value={exp.type}
                         onChange={(e) => updateExp(idx, 'type', e.target.value)}
                         className="w-full bg-transparent border-b border-white/10 py-1 text-sm outline-none focus:border-[#00d4ff]"
@@ -138,7 +189,8 @@ const ExperienceEditor = ({ data, onSave }) => {
                   <div className="col-span-2">
                     <label className="text-xs font-mono text-textSecondary uppercase">Highlights (1 per line)</label>
                     <textarea
-                      value={exp.highlights.join('\n')}
+                      placeholder="Built a new feature..."
+                      value={(exp.highlights || []).join('\n')}
                       onChange={(e) => updateExpHighlights(idx, e.target.value)}
                       className="w-full bg-black/40 border border-white/10 rounded-lg p-2 mt-1 text-sm outline-none focus:border-[#00d4ff]"
                       rows={4}
@@ -187,7 +239,7 @@ const ExperienceEditor = ({ data, onSave }) => {
                   />
                 </div>
                 <button 
-                  onClick={() => deleteCert(idx)}
+                  onClick={() => setConfirmDelete({ show: true, type: 'cert', index: idx })}
                   className="w-8 h-8 rounded-full bg-red-500/10 text-red-400 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center shrink-0"
                 >
                   ✕

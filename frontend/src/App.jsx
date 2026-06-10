@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import Loader from './components/Loader'
 import Cursor from './components/Cursor'
 import Navbar from './components/Navbar'
@@ -46,13 +46,18 @@ function Portfolio() {
   )
 }
 
+function ProtectedRoute({ children }) {
+  const isAuthenticated = sessionStorage.getItem('adminAuth') === 'true';
+  return isAuthenticated ? children : <Navigate to="/admin/login" />;
+}
+
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Portfolio />} />
         <Route path="/admin/login" element={<AdminLogin />} />
-        <Route path="/admin/panel" element={<AdminPanel />} />
+        <Route path="/admin/panel" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
       </Routes>
     </Router>
   )

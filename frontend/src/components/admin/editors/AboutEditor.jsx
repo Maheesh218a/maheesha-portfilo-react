@@ -1,12 +1,39 @@
 import React, { useState } from 'react';
+import AlertMessage from '../AlertMessage';
+import ConfirmDialog from '../ConfirmDialog';
 
 const AboutEditor = ({ data, onSave }) => {
   const [formData, setFormData] = useState(data);
   const [saving, setSaving] = useState(false);
+  const [alert, setAlert] = useState({ show: false, message: '', type: 'error' });
+  const [confirmDelete, setConfirmDelete] = useState({ show: false, index: null });
+
+  const validate = () => {
+    if (!formData.educationDescription?.trim()) {
+      setAlert({ show: true, message: 'Description is required.', type: 'error' });
+      return false;
+    }
+    for (let i = 0; i < formData.info.length; i++) {
+      if (!formData.info[i].label?.trim() || !formData.info[i].icon?.trim()) {
+        setAlert({ show: true, message: `Basic Info item ${i + 1} is missing Label or Icon.`, type: 'error' });
+        return false;
+      }
+    }
+    for (let i = 0; i < formData.education.length; i++) {
+      const e = formData.education[i];
+      if (!e.degree?.trim() || !e.school?.trim() || !e.year?.trim()) {
+        setAlert({ show: true, message: `Education item ${i + 1} is missing required fields (Degree, Institution, Year).`, type: 'error' });
+        return false;
+      }
+    }
+    return true;
+  };
 
   const handleSave = () => {
+    if (!validate()) return;
     setSaving(true);
     onSave(formData);
+    setAlert({ show: true, message: 'About details saved successfully!', type: 'success' });
     setTimeout(() => setSaving(false), 800);
   };
 
@@ -25,18 +52,36 @@ const AboutEditor = ({ data, onSave }) => {
   const addEducation = () => {
     setFormData({
       ...formData,
-      education: [...formData.education, { degree: 'New Degree', school: 'School Name', year: 'Year', note: '' }]
+      education: [...formData.education, { degree: '', school: '', year: '', note: '' }]
     });
   };
 
   const deleteEducation = (index) => {
     const newEdu = [...formData.education];
     newEdu.splice(index, 1);
-    setFormData({ ...formData, education: newEdu });
+    const newData = { ...formData, education: newEdu };
+    setFormData(newData);
+    onSave(newData);
+    setAlert({ show: true, message: 'Education deleted successfully!', type: 'success' });
   };
 
   return (
     <div className="space-y-8 pb-10">
+      <AlertMessage 
+        message={alert.show ? alert.message : ''} 
+        type={alert.type} 
+        onClose={() => setAlert({ ...alert, show: false })} 
+      />
+      <ConfirmDialog 
+        isOpen={confirmDelete.show}
+        title="Delete Education?"
+        message="Are you sure you want to delete this education entry?"
+        onConfirm={() => {
+          if (confirmDelete.index !== null) deleteEducation(confirmDelete.index);
+          setConfirmDelete({ show: false, index: null });
+        }}
+        onCancel={() => setConfirmDelete({ show: false, index: null })}
+      />
       <div className="flex justify-between items-center border-b border-white/10 pb-4">
         <h2 className="text-2xl font-display font-bold text-[#00d4ff]">About Me</h2>
         <button
@@ -74,6 +119,7 @@ const AboutEditor = ({ data, onSave }) => {
                 <label className="text-xs font-mono text-textSecondary uppercase">Label</label>
                 <input
                   type="text"
+                  placeholder="E.g. +94 77 123 4567"
                   value={item.label}
                   onChange={(e) => updateInfo(idx, 'label', e.target.value)}
                   className="w-full bg-transparent border-b border-white/10 py-1 text-sm outline-none focus:border-[#00d4ff] transition-colors"
@@ -119,7 +165,7 @@ const AboutEditor = ({ data, onSave }) => {
           {formData.education.map((edu, idx) => (
             <div key={idx} className="bg-black/30 p-4 rounded-xl border border-white/5 relative group">
               <button 
-                onClick={() => deleteEducation(idx)}
+                onClick={() => setConfirmDelete({ show: true, index: idx })}
                 className="absolute top-4 right-4 text-xs font-mono text-red-400 opacity-0 group-hover:opacity-100 transition-opacity hover:underline"
               >
                 Delete
@@ -130,6 +176,7 @@ const AboutEditor = ({ data, onSave }) => {
                   <label className="text-xs font-mono text-textSecondary uppercase">Degree/Title</label>
                   <input
                     type="text"
+                    placeholder="BSc Computer Science"
                     value={edu.degree}
                     onChange={(e) => updateEducation(idx, 'degree', e.target.value)}
                     className="w-full bg-transparent border-b border-white/10 py-1 text-sm outline-none focus:border-[#00d4ff] font-bold"
@@ -139,6 +186,7 @@ const AboutEditor = ({ data, onSave }) => {
                   <label className="text-xs font-mono text-textSecondary uppercase">Institution</label>
                   <input
                     type="text"
+                    placeholder="University of Colombo"
                     value={edu.school}
                     onChange={(e) => updateEducation(idx, 'school', e.target.value)}
                     className="w-full bg-transparent border-b border-white/10 py-1 text-sm outline-none focus:border-[#00d4ff]"
@@ -148,6 +196,7 @@ const AboutEditor = ({ data, onSave }) => {
                   <label className="text-xs font-mono text-textSecondary uppercase">Year</label>
                   <input
                     type="text"
+                    placeholder="2020 - 2024"
                     value={edu.year}
                     onChange={(e) => updateEducation(idx, 'year', e.target.value)}
                     className="w-full bg-transparent border-b border-white/10 py-1 text-sm outline-none focus:border-[#00d4ff] text-[#00d4ff]"
@@ -157,6 +206,7 @@ const AboutEditor = ({ data, onSave }) => {
                   <label className="text-xs font-mono text-textSecondary uppercase">Badge Note (Optional)</label>
                   <input
                     type="text"
+                    placeholder="e.g. First Class"
                     value={edu.note || ''}
                     onChange={(e) => updateEducation(idx, 'note', e.target.value)}
                     className="w-full bg-transparent border-b border-white/10 py-1 text-sm outline-none focus:border-[#00d4ff] text-[#00ff88]"

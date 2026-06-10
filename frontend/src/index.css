@@ -227,3 +227,37 @@
 .progress-bar.animated {
   width: var(--target-width);
 }
+
+/* Elegant Staggered Reveal Animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUpFade {
+  0% { 
+    opacity: 0; 
+    transform: translateY(25px); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+.tab-content-enter {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+/* Target the direct children of the editor wrappers */
+.tab-content-enter > div > * {
+  opacity: 0;
+  animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.tab-content-enter > div > *:nth-child(1) { animation-delay: 0.05s; }
+.tab-content-enter > div > *:nth-child(2) { animation-delay: 0.12s; }
+.tab-content-enter > div > *:nth-child(3) { animation-delay: 0.19s; }
+.tab-content-enter > div > *:nth-child(4) { animation-delay: 0.26s; }
+.tab-content-enter > div > *:nth-child(5) { animation-delay: 0.33s; }
+.tab-content-enter > div > *:nth-child(6) { animation-delay: 0.40s; }
