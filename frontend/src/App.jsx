@@ -29,7 +29,6 @@ function Portfolio() {
   return (
     <>
       <div className="noise-overlay" />
-      <Cursor />
       {loading && <Loader onComplete={handleLoadComplete} />}
       <div className={`transition-opacity duration-700 ${visible ? 'opacity-100' : 'opacity-0'}`}>
         <Navbar />
@@ -55,6 +54,7 @@ function ProtectedRoute({ children }) {
 function App() {
   return (
     <Router>
+      <Cursor />
       <Routes>
         <Route path="/" element={<Portfolio />} />
         <Route path="/projects" element={<AllProjects />} />
