@@ -16,8 +16,12 @@ const ProjectCard = ({ project, index }) => {
 
   return (
     <div
-      className="glass-card rounded-2xl overflow-hidden animate-on-scroll group"
-      style={{ animationDelay: `${index * 0.08}s` }}
+      className="glass-card rounded-2xl overflow-hidden group"
+      style={{ 
+        opacity: 0,
+        animation: `slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards`,
+        animationDelay: `${index * 0.1}s` 
+      }}
     >
       {/* Card header */}
       <div
@@ -172,7 +176,7 @@ const Projects = () => {
         {/* Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {filtered.map((project, i) => (
-            <ProjectCard key={project.title} project={project} index={i} />
+            <ProjectCard key={`${filter}-${project.title}`} project={project} index={i} />
           ))}
         </div>
 
