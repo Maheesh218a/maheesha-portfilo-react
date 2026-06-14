@@ -12,6 +12,7 @@ import Contact from './components/Contact'
 import Footer from './components/Footer'
 import AdminLogin from './components/admin/AdminLogin'
 import AdminPanel from './components/admin/AdminPanel'
+import AllProjects from './pages/AllProjects'
 import { useScrollAnimation } from './hooks/useScrollAnimation'
 
 function Portfolio() {
@@ -56,6 +57,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Portfolio />} />
+        <Route path="/projects" element={<AllProjects />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/panel" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
       </Routes>
