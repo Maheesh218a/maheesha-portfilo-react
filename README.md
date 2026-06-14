@@ -1,7 +1,7 @@
 # Maheesha Udalagama — Portfolio
 
-🌐 **Live Demo:** [https://maheesha-portfilo-react.vercel.app/](https://maheesha-portfilo-react.vercel.app/)
-🔒 **Admin Panel:** [https://maheesha-portfilo-react.vercel.app/admin/login](https://maheesha-portfilo-react.vercel.app/admin/login)
+🌐 **Live Demo:** [https://maheeshaudalagama.vercel.app/](https://maheeshaudalagama.vercel.app/)
+🔒 **Admin Panel:** [https://maheeshaudalagama.vercel.app/admin/login](https://maheeshaudalagama.vercel.app/admin/login)
 
 A modern, dark-themed personal portfolio website built with React.js, Tailwind CSS, and Firebase. 100% Serverless Architecture.
 
